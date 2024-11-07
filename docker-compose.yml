@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: laravel_app
+        working_dir: /var/www/html
+        volumes:
+            - ./:/var/www/html
+        ports:
+            - "8000:8000"
+        networks:
+            - app_network
+        environment:
+            - APP_ENV=local
+            - APP_DEBUG=true
+
+    redis:
+        image: redis:alpine
+        container_name: redis
+        ports:
+            - "6379:6379"
+        networks:
+            - app_network
+
+networks:
+    app_network:
+        driver: bridge
